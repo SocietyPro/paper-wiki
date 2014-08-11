@@ -3,8 +3,6 @@ This Polymer component contains the template and logic to render a wiki
 It will likely be included as the sole element in the wiki's index.html
 -->
 <link rel="import" 
-  href="../../bower_components/polymer/polymer.html">
-<link rel="import" 
   href="../wiki-topic/wiki-topic.html">
 <link rel="import"
   href="../../bower_components/core-icons/core-icons.html">
@@ -78,7 +76,7 @@ attributes="appTitle rootId"
           <core-menu-button icon="home" ></core-menu-button>
         </div>
         <div id="wikiTitle" flex>
-          <span>{{title}}</span>
+          <span>{{appTitle}}</span>
         </div>
         <div end>
           <core-menu-button id="moreMenuButton" icon="more-vert" >
@@ -91,7 +89,7 @@ attributes="appTitle rootId"
       </core-toolbar>
 
       <!-- main page content goes here: --> 
-      <wiki-topic topic="{{title}}"> </wiki-topic>
+      <wiki-topic topicid="{{rootId}}"> </wiki-topic>
 
   </template>
   <script>

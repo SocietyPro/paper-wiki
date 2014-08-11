@@ -1,5 +1,3 @@
-<link rel="import" 
-  href="../../bower_components/polymer/polymer.html">
 <link rel="import"
   href="../../bower_components/core-icons/core-icons.html">
 <link rel="import"
@@ -10,7 +8,7 @@
   href="../../bower_components/paper-shadow/paper-shadow.html" >
 <polymer-element 
 name="wiki-topic" 
-attributes="topic information"
+attributes="topicid"
 >
   <style>
     :host{
@@ -58,8 +56,24 @@ attributes="topic information"
   </template>
   <script>
   Polymer('wiki-topic', {
-    topic: 'Topic',
-    information: "Information",
+    publishes:{
+      topicid: 'root',
+      topic: 'Wiki Root',
+      information: "Some information",
+    },
+    created: function(){
+      var that = this;
+      //var that = document.querySelector(':host');
+      SOPROWIKI.getTopic(that.topicid, function(err, topic, info){
+        if(err){ 
+          that.topic = "Error"
+          that.information = err;
+          return;
+        }
+        that.topic = topic;
+        that.information = info;
+      });
+    },
   });
   </script>
 </polymer-element>
