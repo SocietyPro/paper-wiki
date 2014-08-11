@@ -1,0 +1,98 @@
+﻿<!doctype html>
+<html>
+
+<head>
+  <title>paper-wiki</title>
+  <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+  <script src="bower_components/platform/platform.js"></script>
+  <link rel="import" href="bower_components/font-roboto/roboto.html">
+  <link rel="import" href="wiki-topic.html">
+  <link rel="import"
+    href="bower_components/core-icons/core-icons.html">
+  <link rel="import"
+    href="bower_components/core-menu-button/core-menu-button.html">
+  <link rel="import"
+    href="bower_components/core-header-panel/core-header-panel.html">
+  <link rel="import"
+    href="bower_components/core-toolbar/core-toolbar.html">
+  <link rel="import"
+    href="bower_components/paper-tabs/paper-tabs.html">
+<!--
+  <link rel="import"
+    href="bower_components/core-scaffold/core-scaffold.html">
+-->
+
+  <style>
+  html,body {
+    height: 100%;
+    margin: 0;
+    background-color: #03a9f4;
+    font-family: 'RobotoDraft', sans-serif;
+  }
+  body { position: relative; }
+  .container {
+    width: 80%;
+    margin: 50px auto;
+  }
+  @media (min-width: 481px) {
+  }
+  core-header-panel {
+    position: relative;
+    height: 100%;
+    width: 100%;
+    overflow: auto;
+    -webkit-overflow-scrolling: touch; 
+  }
+  core-header-panel #dropShadow{
+    pointer-events: none;
+  }
+  core-toolbar {
+    background: #03a9f4;
+    color: white;
+    width: 100%;
+  }
+  #wikiTitle{text-align: center}
+  </style>
+  <script>
+    var moreMenuShown = false;
+    function toggleDotsMenu(){
+      moreMenuShown = !moreMenuShown;
+    };
+    document.addEventListener('polymer-ready', function(){
+      document.getElementById('moreMenuButton').onclick = toggleDotsMenu;
+    });
+  </script>
+</head>
+
+<body unresolved fullbleed touch-action="auto">
+<!-- unresolved: Avoid ghost elements during loading
+     fullbleed: Make body fill window
+     touch-action="auto": Configure touch defaults?
+ -->
+  <core-header-panel>
+      
+    <core-toolbar >
+      <div start>
+        <core-menu-button icon="home" ></core-menu-button>
+      </div>
+      <div id="wikiTitle" flex>
+        <span>Paper Wiki</span>
+      </div>
+      <div end>
+        <core-menu-button id="moreMenuButton" icon="more-vert" >
+          <div hidden="{{moreMenuShown}}">
+            <core-menu-button icon="settings"></core-menu-button>
+            <core-menu-button icon="info" ></core-menu-button>
+          </div>
+        </core-menu-button>
+      </div>
+    </core-toolbar>
+
+    <!-- main page content goes here: --> 
+    <wiki-topic topic="Society Pro Wiki"> </wiki-topic>
+
+  </core-header-panel>
+
+</body>
+
+</html>

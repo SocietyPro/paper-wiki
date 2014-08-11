@@ -1,0 +1,75 @@
+<link rel="import" href="bower_components/polymer/polymer.html">
+
+<!--
+<link href="../polymer/polymer.html" rel="import">
+<link href="../core-icon/core-icon.html" rel="import">
+<link href="../paper-focusable/paper-focusable.html" rel="import">
+<link href="../paper-ripple/paper-ripple.html" rel="import">
+-->
+<link rel="import"
+  href="bower_components/core-icons/core-icons.html">
+<link rel="import"
+  href="bower_components/core-icons/editor-icons.html">
+<link rel="import"
+  href="bower_components/core-icon-button/core-icon-button.html">
+<link rel="import"
+  href="bower_components/core-menu-button/core-menu-button.html">
+<link rel="import"
+  href="bower_components/core-toolbar/core-toolbar.html">
+<link rel="import" href="bower_components/paper-shadow/paper-shadow.html" >
+<polymer-element 
+name="wiki-topic" 
+noscript
+attributes="topic information"
+>
+  <style>
+    :host{
+      position: relative;
+      min-height: 100px;
+      margin: 10px auto 0 auto;
+      background-color: white;
+    }
+    #topicContainer {
+      background-color: white;
+    }
+    @media screen and (min-width:801px){
+      #topicContainer{
+        width: 800px; 
+        margin: 10px auto 0 auto;
+      }
+    }
+    @media screen and (max-width:800px){
+      #topicContainer{
+        color: #777777;
+        width: auto; 
+        margin: 10px 1px 0px 1px;
+      }
+    }
+    #topicContainer core-icon-button{
+      background-color: white;
+      color: #777777;
+    }
+  </style>
+  <template>
+    <div fit id="shadowContainer">
+      <paper-shadow z="5"></paper-shadow>
+    </div>
+    <div id="topicContainer" horizontal layout>
+      <div flex>
+        <h1>{{topic}}</h1>
+        <div>{{information}}</div>
+      </div>
+      <div>
+        <core-icon-button icon="editor:mode-edit" justify-center >
+        <paper-shadow z="2"></paper-shadow>
+        </core-icon>
+      </div>
+    </div> 
+  </template>
+  <script>
+  Polymer('wiki-topic', {
+    topic: 'Topic',
+    information: "Information",
+  });
+  </script>
+</polymer-element>
