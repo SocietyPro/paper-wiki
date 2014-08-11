@@ -1,0 +1,115 @@
+﻿<!--
+This Polymer component contains the template and logic to render a wiki
+It will likely be included as the sole element in the wiki's index.html
+-->
+<link rel="import" 
+  href="../../bower_components/polymer/polymer.html">
+<link rel="import" 
+  href="../wiki-topic/wiki-topic.html">
+<link rel="import"
+  href="../../bower_components/core-icons/core-icons.html">
+<link rel="import"
+  href="../../bower_components/core-header-panel/core-header-panel.html">
+<link rel="import"
+  href="../../bower_components/core-toolbar/core-toolbar.html">
+<link rel="import"
+  href="../../bower_components/core-icon-button/core-icon-button.html">
+<link rel="import"
+  href="../../bower_components/core-menu-button/core-menu-button.html">
+<link rel="import" 
+  href="../../bower_components/paper-shadow/paper-shadow.html" >
+<polymer-element 
+name="wiki-index" 
+noscript
+attributes="appTitle rootId"
+>
+  <style>
+    :host{
+      display: block;
+      position: relative;
+      height: 100%;
+      width: 100%;
+    }
+
+    core-header-panel {
+      position: relative;
+      height: 100%;
+      width: 100%;
+      overflow: auto;
+      -webkit-overflow-scrolling: touch; 
+    }
+
+    core-header-panel #dropShadow{
+      pointer-events: none;
+    }
+
+    core-toolbar {
+      background: #03a9f4;
+      color: white;
+      width: 100%;
+    }
+    #wikiTitle{text-align: center}
+
+    #topicContainer {
+      background-color: white;
+    }
+    @media screen and (min-width:801px){
+      #topicContainer{
+        width: 800px; 
+        margin: 10px auto 0 auto;
+      }
+    }
+    @media screen and (max-width:800px){
+      #topicContainer{
+        color: #777777;
+        width: auto; 
+        margin: 10px 1px 0px 1px;
+      }
+    }
+    #topicContainer core-icon-button{
+      background-color: white;
+      color: #777777;
+    }
+  </style>
+  <template>
+    <core-header-panel>
+        
+      <core-toolbar >
+        <div start>
+          <core-menu-button icon="home" ></core-menu-button>
+        </div>
+        <div id="wikiTitle" flex>
+          <span>{{title}}</span>
+        </div>
+        <div end>
+          <core-menu-button id="moreMenuButton" icon="more-vert" >
+            <div hidden="{{moreMenuShown}}">
+              <core-menu-button icon="settings"></core-menu-button>
+              <core-menu-button icon="info" ></core-menu-button>
+            </div>
+          </core-menu-button>
+        </div>
+      </core-toolbar>
+
+      <!-- main page content goes here: --> 
+      <wiki-topic topic="{{title}}"> </wiki-topic>
+
+  </template>
+  <script>
+    Polymer('wiki-index', {
+      publishes: {
+        appTitle: 'Society Pro Wiki',
+        rootId: 'root',
+      },
+    });
+    var moreMenuShown = false;
+    function toggleDotsMenu(){
+      moreMenuShown = !moreMenuShown;
+    };
+    /*
+    document.addEventListener('polymer-ready', function(){
+      document.getElementById('moreMenuButton').onclick = toggleDotsMenu;
+    });
+    */
+  </script>
+</polymer-element>
