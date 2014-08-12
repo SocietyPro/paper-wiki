@@ -37,42 +37,112 @@ attributes="topicid"
       background-color: white;
       color: #777777;
     }
+
+    #t2, #i2{
+      display: none;
+    }
+    .editing #t1, .editing #i1{
+      display: none;
+    }
+    .editing #t2, .editing #i2{
+      display: block;
+    }
+
   </style>
   <template>
-    <div fit id="shadowContainer">
-      <paper-shadow z="5"></paper-shadow>
-    </div>
     <div id="topicContainer" horizontal layout>
       <div flex>
-        <h1>{{topic}}</h1>
-        <div>{{information}}</div>
+        <h1 id="t1">{{topic}}</h1>
+        <input type="text" id="t2" value="{{topic}}"></input> 
+        <div id="i1">{{information}}</div>
+        <input type="text" id="i2" value="{{information}}"></textarea>
+        <div id="childTopics"></div>
       </div>
       <div>
-        <core-icon-button icon="editor:mode-edit" justify-center >
-        <paper-shadow z="2"></paper-shadow>
+        <core-icon-button 
+          icon="editor:mode-edit" 
+          justify-center 
+          on-click="{{toggleEditing}}"
+        >
+        </core-icon-button>
+        <core-icon-button 
+          icon="save" 
+          justify-center 
+          on-click="{{saveTopic}}"
+        >
         </core-icon-button>
       </div>
     </div> 
   </template>
   <script>
+  var that;
   Polymer('wiki-topic', {
-    publishes:{
+    publish:{
       topicid: 'root',
       topic: 'Wiki Root',
       information: "Some information",
+      editing: false,
+      childTopics: [],
+    },
+    calculated:{
+      viewing: '!editing'
     },
     created: function(){
-      var that = this;
       //var that = document.querySelector(':host');
-      SOPROWIKI.getTopic(that.topicid, function(err, topic, info){
-        if(err){ 
-          that.topic = "Error"
+      that = this;
+      SOPROWIKI.getTopic(that.topicid, function(err, topicObj){
+        console.log('Got');
+        console.log(topicObj);
+        if(err === "Not found"){
+          that.topic = that.topicid;
+          that.information = "This topic hasn't been created yet.";
+          return;
+        } else if(err){ 
+          that.topic = "Error loading topic"
           that.information = err;
           return;
         }
-        that.topic = topic;
-        that.information = info;
+        that.topic = topicObj.topic;
+        that.information = topicObj.information;
+        that.childTopics = topicObj.childTopics;
       });
+      console.log(that);
+    },
+    saveTopic: function(){
+      var topicObj = {
+        topicid: that.topicid,
+        topic: that.topic,
+        information: that.information,
+        childTopics: that.childTopics,
+      }
+      SOPROWIKI.saveTopic(topicObj, function(err){
+        if(err){
+          that.fire('wiki-topic-save-error', {
+            err: err,
+          });
+        } else {
+          that.fire('wiki-topic-saved', {
+            topicid: that.topicid, 
+            topic: that.topic,
+          });
+        };
+      });
+      if(that.editing){
+        that.toggleEditing();
+      };
+    },
+    toggleEditing: function(){
+      // Toggle internal state:
+      this.editing = !this.editing;
+
+      // Toggle CSS class on topicContainer:
+      var editClass = this.$.topicContainer.className;
+      editClass = 
+        (editClass === "editing")
+        ? ""
+        : "editing";
+      this.$.topicContainer.className = editClass;
+
     },
   });
   </script>
